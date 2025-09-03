@@ -1,0 +1,1 @@
+# aws-painel-competicao-mmt
