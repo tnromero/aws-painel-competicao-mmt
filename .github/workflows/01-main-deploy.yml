@@ -1,4 +1,4 @@
-name: Main - UnitTests
+name: Main - Deploy Production
 
 on:
   pull_request:

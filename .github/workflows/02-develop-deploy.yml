@@ -1,4 +1,4 @@
-name: Develop - UnitTests
+name: Develop - Deploy Development
 
 on:
   pull_request:
