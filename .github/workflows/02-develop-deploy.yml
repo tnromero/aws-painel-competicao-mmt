@@ -11,6 +11,8 @@ jobs:
   tests:
     name: Unit tests
     runs-on: ubuntu-latest
+    environment:
+      name: dev
 
     steps:
       - name: Checkout
@@ -28,4 +30,4 @@ jobs:
 
       - name: Run unit tests with coverage
         run: |
-          pytest --cov=. --cov-fail-under=70 --cov-report=term-missing
+          pytest --cov=. --cov-fail-under=${{secrets.TEST_COVER_MIN}} --cov-report=term-missing
