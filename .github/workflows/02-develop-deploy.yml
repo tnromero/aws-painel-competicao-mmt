@@ -1,0 +1,31 @@
+name: UnitTests
+
+on:
+  pull_request:
+    branches: [ develop ]
+    types: [opened, synchronize, reopened]
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run unit tests with coverage
+        run: |
+          pytest --cov=. --cov-fail-under=70 --cov-report=term-missing
