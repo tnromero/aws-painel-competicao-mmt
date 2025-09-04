@@ -1,4 +1,4 @@
-name: UnitTests
+name: Main - UnitTests
 
 on:
   pull_request:
@@ -21,7 +21,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: ${{vars.PYTHON_VERSION}}
 
       - name: Install Python dependencies
         run: |
