@@ -3,9 +3,9 @@ resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr_block
   enable_dns_support   = true
   enable_dns_hostnames = true
-  tags = {
-    Name = "${var.project_name}-vpc"
-  }
+  tags = merge(var.default_tags, {
+    Name = "${var.project_name}-${var.environment}-vpc"
+  })
 }
 
 resource "aws_subnet" "main" {
@@ -13,23 +13,23 @@ resource "aws_subnet" "main" {
   cidr_block              = var.subnet_cidr_block
   map_public_ip_on_launch = true
   availability_zone       = "${var.aws_region}a"
-  tags = {
-    Name = "${var.project_name}-subnet"
-  }
+  tags = merge(var.default_tags, {
+    Name = "${var.project_name}-${var.environment}-subnet"
+  })
 }
 
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
-  tags = {
-    Name = "${var.project_name}-igw"
-  }
+  tags = merge(var.default_tags, {
+    Name = "${var.project_name}-${var.environment}-igw"
+  })
 }
 
 resource "aws_route_table" "main" {
   vpc_id = aws_vpc.main.id
-  tags = {
-    Name = "${var.project_name}-rt"
-  }
+  tags = merge(var.default_tags, {
+    Name = "${var.project_name}-${var.environment}-rt"
+  })
 }
 
 resource "aws_route" "internet_access" {

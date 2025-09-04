@@ -25,7 +25,13 @@ variable "aws_region" {
   type        = string
 }
 
-variable "artifacts_path" {
-  description = "Path where lambda artifacts (zip) will be placed. Relative to infra module"
-  type        = string
+# variable "artifacts_path" {
+#   description = "Path where lambda artifacts (zip) will be placed. Relative to infra module"
+#   type        = string
+# }
+
+# Tags padrão para todos os recursos
+variable "default_tags" {
+  description = "Tags padrão para todos os recursos AWS"
+  type        = map(string)
 }
