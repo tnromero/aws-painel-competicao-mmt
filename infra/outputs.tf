@@ -1,7 +1,7 @@
-output "region" {
-  value = var.aws_region
-}
+# output "region" {
+#   value = var.aws_region
+# }
 
-output "artifacts_path" {
-  value = var.artifacts_path
-}
+# output "artifacts_path" {
+#   value = var.artifacts_path
+# }

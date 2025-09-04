@@ -1,4 +1,4 @@
-name: Develop - UnitTests
+name: Develop - Deploy Development
 
 on:
   pull_request:
@@ -6,22 +6,27 @@ on:
     types: [opened, synchronize, reopened]
     paths-ignore:
       - '**.md'
+  push:
+    branches: [ develop ]
 
 jobs:
-  tests:
+  unit-tests:
     name: Unit tests
     runs-on: ubuntu-latest
     environment:
       name: dev
+    env:
+      PYTHON_VERSION: '3.12'
+      TEST_COVER_MIN: '80'
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
-          python-version: ${{vars.PYTHON_VERSION}}
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install Python dependencies
         run: |
@@ -30,4 +35,51 @@ jobs:
 
       - name: Run unit tests with coverage
         run: |
-          pytest --cov=. --cov-fail-under=${{secrets.TEST_COVER_MIN}} --cov-report=term-missing
+          pytest --cov=./services --cov-fail-under=${{ env.TEST_COVER_MIN }} --cov-report=term-missing
+  
+  terraform-deploy:
+    name: Terraform Deploy
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.13.1'
+      - name: Configure AWS credentials
+        if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/develop')
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Terraform Init
+        if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/develop')
+        working-directory: infra
+        run: |
+          terraform init -input=false -reconfigure -backend-config="region=$AWS_REGION"
+
+      - name: Terraform Plan (PR)
+        if: github.event_name == 'pull_request'
+        working-directory: infra
+        run: |
+          terraform plan -input=false -var-file=env/dev.tfvars -out=tfplan
+
+      - name: Terraform Apply (on push to develop)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+        working-directory: infra
+        run: |
+          terraform plan -input=false -var-file=env/dev.tfvars -out=tfplan
+          terraform apply -input=false -auto-approve tfplan
+
