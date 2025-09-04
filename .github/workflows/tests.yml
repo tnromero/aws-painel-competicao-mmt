@@ -1,8 +1,13 @@
 name: UnitTests
 
 on:
-  push:
-    branches: [ develop ]
+  pull_request:
+    branches: [ main ]
+    types: [opened, synchronize, reopened]
+    paths-ignore:
+      - '**.md'
+    # Only run if the PR is from develop branch
+    # This uses a workflow condition in the job below
 
 jobs:
   tests:
