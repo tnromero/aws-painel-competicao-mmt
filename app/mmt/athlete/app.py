@@ -1,8 +1,0 @@
-import json
-
-def lambda_handler(event, context):
-    action = event.get("action", "list")
-    if action == "create":
-        body = event.get("body", {})
-        return {"statusCode": 201, "body": json.dumps({"message": "athlete created", "item": body})}
-    return {"statusCode": 200, "body": json.dumps({"items": []})}
