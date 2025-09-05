@@ -35,3 +35,8 @@ variable "default_tags" {
   description = "Tags padrão para todos os recursos AWS"
   type        = map(string)
 }
+
+variable "account_id" {
+  description = "AWS Account ID"
+  type        = string
+}
