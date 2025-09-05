@@ -3,15 +3,10 @@
   "editor.fontSize": 18,
   "black-formatter.cwd": "${workspaceFolder}/app",
   "black-formatter.interpreter": [
-    "${workspaceFolder}/app/venv/bin/python",
-    "${workspaceFolder}/app/venv/Scripts/python",
-  ],
-  "python.testing.pytestArgs": [
-    "mmt"
+    "${workspaceFolder}/app/venv/bin/python"
   ],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
-  "python-envs.pythonProjects": [
-    ${workspaceFolder}/app/venv/
-  ]
+  "python.testing.cwd": "${workspaceFolder}/app",
+  
 }
