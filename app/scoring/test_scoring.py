@@ -1,4 +1,4 @@
-from services.scoring import app
+from app.scoring import app
 
 
 def test_scoring_empty():

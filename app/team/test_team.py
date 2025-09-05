@@ -1,4 +1,4 @@
-from services.team import app
+from app.team import app
 
 
 def test_list():

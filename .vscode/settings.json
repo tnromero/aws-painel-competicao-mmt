@@ -1,0 +1,14 @@
+{
+  "yaml.validate": false,
+  "editor.fontSize": 18,
+  "black-formatter.cwd": "${workspaceFolder}/app",
+  "black-formatter.interpreter": [
+    "${workspaceFolder}/app/venv/bin/python",
+    "${workspaceFolder}/app/venv/Scripts/python",
+  ],
+  "python.testing.pytestArgs": [
+    "app"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
+}
