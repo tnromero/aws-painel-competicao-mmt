@@ -1,4 +1,4 @@
-from services.team import app
+from mmt.result import app
 
 
 def test_list():
@@ -7,6 +7,6 @@ def test_list():
 
 
 def test_create():
-    resp = app.lambda_handler({"action": "create", "body": {"name": "Team1"}}, None)
+    resp = app.lambda_handler({"action": "create", "body": {"score": 100}}, None)
     assert resp["statusCode"] == 201
-    assert "Team1" in resp["body"]
+    assert "100" in resp["body"]

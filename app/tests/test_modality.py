@@ -1,4 +1,4 @@
-from services.modality import app
+from mmt.modality import app
 
 
 def test_list():

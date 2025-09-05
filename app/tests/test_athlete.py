@@ -1,4 +1,4 @@
-from services.athlete import app
+from mmt.athlete import app
 
 
 def test_list():

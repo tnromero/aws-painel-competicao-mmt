@@ -1,4 +1,4 @@
-from services.competition import app
+from mmt.competition import app
 
 
 def test_list():
