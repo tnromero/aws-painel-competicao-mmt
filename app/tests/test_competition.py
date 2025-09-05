@@ -1,4 +1,4 @@
-from app.modality import app
+from mmt.competition import app
 
 
 def test_list():
@@ -7,6 +7,6 @@ def test_list():
 
 
 def test_create():
-    resp = app.lambda_handler({"action": "create", "body": {"name": "Modal1"}}, None)
+    resp = app.lambda_handler({"action": "create", "body": {"name": "Comp1"}}, None)
     assert resp["statusCode"] == 201
-    assert "Modal1" in resp["body"]
+    assert "Comp1" in resp["body"]
