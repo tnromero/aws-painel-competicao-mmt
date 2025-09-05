@@ -29,12 +29,13 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install Python dependencies
+        working-directory: app
         run: |
-          cd app
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run unit tests with coverage
+        working-directory: app
         run: |
           python -m pytest --cov=mmt --cov-fail-under=${{ env.TEST_COVER_MIN }} --cov-report=term-missing
   
@@ -57,6 +58,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: '1.13.1'
+
       - name: Configure AWS credentials
         if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/develop')
         uses: aws-actions/configure-aws-credentials@v2
