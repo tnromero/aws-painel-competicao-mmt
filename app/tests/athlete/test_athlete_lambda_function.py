@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch, MagicMock
-from app.mmt.athlete import lambda_function
+from mmt.athlete import lambda_function
 
 @pytest.fixture
 def athlete_data():
